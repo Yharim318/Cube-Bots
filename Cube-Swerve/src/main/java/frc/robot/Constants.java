@@ -6,5 +6,17 @@ package frc.robot;
 
 /** Add your docs here. */
 public class Constants {
-    
+    public class SwerveWheelConstants{
+        public class FrontWheels{
+            public int RightDrive = 1;
+            public int LeftDrive = 2;
+            public int RightAngle = 3;
+            public int LeftAngle = 4;
+            
+
+        }
+        public class BackWheels{
+
+        }
+    }
 }
