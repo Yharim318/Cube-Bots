@@ -12,11 +12,20 @@ public class Constants {
             public int LeftDrive = 2;
             public int RightAngle = 3;
             public int LeftAngle = 4;
-            
+
+            public int RightCancoder = 5;
+            public int LeftCancoder = 6;
+
 
         }
         public class BackWheels{
+            public int RightDrive = 7;
+            public int LeftDrive = 8;
+            public int RightAngle = 9;
+            public int LeftAngle = 10;
 
+            public int RightCancoder = 11;
+            public int LeftCancoder = 12;
         }
     }
 }
