@@ -27,5 +27,17 @@ public class Constants {
             public int RightCancoder = 11;
             public int LeftCancoder = 12;
         }
+        public class PIDConstants{
+            public final static double kP = 0.085; // Proportion
+            public final static double kI = 0; // Integral
+            public final static double kD = 0.001; // Derivative
+        }
+        public class ChassisConstants{
+            public double length = 1;
+            public double width = 1;
+
+            public double maxDriveSpeed = 1;
+            public double maxRotationSpeed = Math.PI;
+        }
     }
 }
