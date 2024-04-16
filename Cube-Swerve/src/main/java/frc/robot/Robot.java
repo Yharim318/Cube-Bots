@@ -111,7 +111,7 @@ public class Robot extends TimedRobot {
     );
 
     if (driver.getXButton()) {
-      gyro.reset();;
+      gyro.reset();
     }
 
     goalStates = swerveDrive.toSwerveModuleStates(goalSpeed, centerRotation);

@@ -19,7 +19,9 @@ public class Constants {
             public final static int LeftAngle = 4;
 
             public final static int RightCancoder = 5;
+            public static final double RightCancoderOffset = 0;
             public final static int LeftCancoder = 6;
+            public static final double LeftCancoderOffset = 0;
         }
         public class BackWheels{
             public final static int RightDrive = 7;
@@ -28,7 +30,9 @@ public class Constants {
             public final static int LeftAngle = 10;
 
             public final static int RightCancoder = 11;
+            public static final double RightCancoderOffset = 0;
             public final static int LeftCancoder = 12;
+            public static final double LeftCancoderOffset = 0;
         }
         public class PIDConstants{
             public final static double kP = 0.085; // Proportion

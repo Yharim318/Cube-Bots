@@ -25,6 +25,8 @@ public class SwerveWheel extends SubsystemBase {
   public TalonSRX angleMotor; // Motor controller object fo the turning motor
   public CANcoder encoder;
   public PIDController swervePID; // PID controller object for error correction
+  public CANcoderConfiguration config = new CANcoderConfiguration();
+  
   public SwerveWheel(kMotors module) {
     swervePID = new PIDController(
       Constants.SwerveWheelConstants.PIDConstants.kP,
@@ -37,25 +39,29 @@ public class SwerveWheel extends SubsystemBase {
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftDrive);
         angleMotor = new TalonSRX(Constants.SwerveWheelConstants.FrontWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.LeftCancoder);
-        encoder.getConfigurator().apply(new CANcoderConfiguration());
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset;
+        encoder.getConfigurator().apply(config);
         break;
       case FR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightDrive);
         angleMotor = new TalonSRX(Constants.SwerveWheelConstants.FrontWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.RightCancoder);
-        encoder.getConfigurator().apply(new CANcoderConfiguration());
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset;
+        encoder.getConfigurator().apply(config);
         break;
       case BL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftDrive);
         angleMotor = new TalonSRX(Constants.SwerveWheelConstants.BackWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.LeftCancoder);
-        encoder.getConfigurator().apply(new CANcoderConfiguration());
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.LeftCancoderOffset;
+        encoder.getConfigurator().apply(config);
         break;
       case BR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightDrive);
         angleMotor = new TalonSRX(Constants.SwerveWheelConstants.BackWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.RightCancoder);
-        encoder.getConfigurator().apply(new CANcoderConfiguration());
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.RightCancoderOffset;
+        encoder.getConfigurator().apply(config);
         break;
     }
   }
