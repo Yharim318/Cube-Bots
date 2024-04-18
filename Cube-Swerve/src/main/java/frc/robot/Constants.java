@@ -9,40 +9,40 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 /** Add your docs here. */
 public class Constants {
-    public static final int gyro = 13;
+    public static final int gyro = 40;
     public static final int driver = 0;
     public static final double deadband = 0.05;
     public class SwerveWheelConstants{
         public class FrontWheels{
-            public final static int RightDrive = 1;
-            public final static int LeftDrive = 2;
-            public final static int RightAngle = 3;
-            public final static int LeftAngle = 4;
+            public final static int RightDrive = 6;
+            public final static int LeftDrive = 4;
+            public final static int RightAngle = 5;
+            public final static int LeftAngle = 3;
 
-            public final static int RightCancoder = 5;
-            public static final double RightCancoderOffset = 0;
-            public final static int LeftCancoder = 6;
-            public static final double LeftCancoderOffset = 0;
+            public final static int RightCancoder = 23;
+            public static final double RightCancoderOffset = -120;
+            public final static int LeftCancoder = 22;
+            public static final double LeftCancoderOffset = 40;
         }
         public class BackWheels{
-            public final static int RightDrive = 7;
-            public final static int LeftDrive = 8;
-            public final static int RightAngle = 9;
-            public final static int LeftAngle = 10;
+            public final static int RightDrive = 8;
+            public final static int LeftDrive = 2;
+            public final static int RightAngle = 7;
+            public final static int LeftAngle = 1;
 
-            public final static int RightCancoder = 11;
-            public static final double RightCancoderOffset = 0;
-            public final static int LeftCancoder = 12;
-            public static final double LeftCancoderOffset = 0;
+            public final static int RightCancoder = 24;
+            public static final double RightCancoderOffset = 245;
+            public final static int LeftCancoder = 21;
+            public static final double LeftCancoderOffset = 137;
         }
         public class PIDConstants{
-            public final static double kP = 0.085; // Proportion
+            public final static double kP = 50; // Proportion
             public final static double kI = 0; // Integral
-            public final static double kD = 0.001; // Derivative
+            public final static double kD = 0.00; // Derivative
         }
         public class ChassisConstants{
-            public static double length = 1;
-            public static double width = 1;
+            public static double length = 28;
+            public static double width = 30;
 
             public static double maxDriveSpeed = 1;
             public static double maxRotationSpeed = Math.PI;

@@ -4,8 +4,6 @@
 
 package frc.robot.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -22,7 +20,7 @@ import frc.robot.Constants.SwerveWheelConstants.kMotors;
 public class SwerveWheel extends SubsystemBase {
   /** Creates a new SwerveWheel. */
   public TalonFX driveMotor; // Motor controller object for the drive motor
-  public TalonSRX angleMotor; // Motor controller object fo the turning motor
+  public TalonFX angleMotor; // Motor controller object fo the turning motor
   public CANcoder encoder;
   public PIDController swervePID; // PID controller object for error correction
   public CANcoderConfiguration config = new CANcoderConfiguration();
@@ -37,28 +35,28 @@ public class SwerveWheel extends SubsystemBase {
     switch (module){
       case FL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftDrive);
-        angleMotor = new TalonSRX(Constants.SwerveWheelConstants.FrontWheels.LeftAngle);
+        angleMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset;
         encoder.getConfigurator().apply(config);
         break;
       case FR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightDrive);
-        angleMotor = new TalonSRX(Constants.SwerveWheelConstants.FrontWheels.RightAngle);
+        angleMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset;
         encoder.getConfigurator().apply(config);
         break;
       case BL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftDrive);
-        angleMotor = new TalonSRX(Constants.SwerveWheelConstants.BackWheels.LeftAngle);
+        angleMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.LeftCancoderOffset;
         encoder.getConfigurator().apply(config);
         break;
       case BR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightDrive);
-        angleMotor = new TalonSRX(Constants.SwerveWheelConstants.BackWheels.RightAngle);
+        angleMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.RightCancoderOffset;
         encoder.getConfigurator().apply(config);
@@ -73,7 +71,7 @@ public class SwerveWheel extends SubsystemBase {
 }
 
   public void setSwerveSpeed(double speed) {  
-    angleMotor.set(ControlMode.PercentOutput, speed);
+    angleMotor.set(speed);
 }
   public void updatePID(SwerveModuleState wheelState, XboxController xbox) {
         // This takes the given SwerveModuleState and optimizes it
@@ -89,7 +87,7 @@ public class SwerveWheel extends SubsystemBase {
         // This sets the setpoint of the PID loop to the angle determined above
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
 
-        angleMotor.set(ControlMode.PercentOutput, // Sets the output of the rotation motor
+        angleMotor.set( // Sets the output of the rotation motor
             MathUtil.applyDeadband(MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
                 swervePID.calculate(getRotation().getDegrees()), -1, 1), Constants.deadband)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
 
