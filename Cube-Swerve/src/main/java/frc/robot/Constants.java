@@ -10,7 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 /** Add your docs here. */
 public class Constants {
     public static final int gyro = 13;
-    
+    public static final int driver = 0;
     public class SwerveWheelConstants{
         public class FrontWheels{
             public final static int RightDrive = 1;
