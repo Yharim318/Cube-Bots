@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -14,11 +16,17 @@ public class Constants {
     public static final int driver = 0;
     public static final double deadband = 0.05;
     public class SwerveWheelConstants{
+        public static NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
+        public static NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
         public class FrontWheels{
             public final static int RightDrive = 6;
+            public final static Boolean RightDriveInvert = false;
             public final static int LeftDrive = 4;
+            public final static Boolean LeftDriveInvert = false;
             public final static int RightAngle = 5;
+            public final static Boolean RightAngleInvert = false;
             public final static int LeftAngle = 3;
+            public final static Boolean LeftAngleInvert = false;
 
             public final static int RightCancoder = 23;
             public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(-85+25);
@@ -27,14 +35,18 @@ public class Constants {
         }
         public class BackWheels{
             public final static int RightDrive = 8;
+            public final static Boolean RightDriveInvert = false;
             public final static int LeftDrive = 2;
+            public final static Boolean LeftDriveInvert = false;
             public final static int RightAngle = 7;
+            public final static Boolean RightAngleInvert = false;
             public final static int LeftAngle = 1;
-
+            public final static Boolean LeftAngleInvert = false;
+            
             public final static int RightCancoder = 24;
-            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(85+20);
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(85+20+180);
             public final static int LeftCancoder = 21;
-            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(227);
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(227-180);
         }
         public class PIDConstants{
             public final static double kP = 0.01; // Proportion

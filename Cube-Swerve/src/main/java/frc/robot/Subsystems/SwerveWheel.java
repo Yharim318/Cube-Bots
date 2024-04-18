@@ -7,7 +7,6 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -41,6 +40,8 @@ public class SwerveWheel extends SubsystemBase {
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
+        driveMotor.setInverted(Constants.SwerveWheelConstants.FrontWheels.LeftDriveInvert);
+        angleMotor.setInverted(Constants.SwerveWheelConstants.FrontWheels.LeftAngleInvert);
         break;
       case FR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightDrive);
@@ -48,6 +49,8 @@ public class SwerveWheel extends SubsystemBase {
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
+        driveMotor.setInverted(Constants.SwerveWheelConstants.FrontWheels.RightDriveInvert);
+        angleMotor.setInverted(Constants.SwerveWheelConstants.FrontWheels.RightAngleInvert);
         break;
       case BL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftDrive);
@@ -55,7 +58,8 @@ public class SwerveWheel extends SubsystemBase {
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
-        driveMotor.setInverted(true);
+        driveMotor.setInverted(Constants.SwerveWheelConstants.BackWheels.LeftDriveInvert);
+        angleMotor.setInverted(Constants.SwerveWheelConstants.BackWheels.LeftAngleInvert);
         break;
       case BR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightDrive);
@@ -63,11 +67,12 @@ public class SwerveWheel extends SubsystemBase {
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
-        driveMotor.setInverted(true);
+        driveMotor.setInverted(Constants.SwerveWheelConstants.BackWheels.RightDriveInvert);
+        angleMotor.setInverted(Constants.SwerveWheelConstants.BackWheels.RightAngleInvert);
         break;
     }
-    driveMotor.setNeutralMode(NeutralModeValue.Brake);
-    angleMotor.setNeutralMode(NeutralModeValue.Brake);
+    driveMotor.setNeutralMode(Constants.SwerveWheelConstants.driveNeutralMode);
+    angleMotor.setNeutralMode(Constants.SwerveWheelConstants.angleNeutralMode);
   }
   public Rotation2d getRotation() {
         return Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().doubleValue());
@@ -83,16 +88,10 @@ public class SwerveWheel extends SubsystemBase {
         // This takes the given SwerveModuleState and optimizes it
         // For example, if the wheel were facing at 90 degrees, and had to be moving forward at -75 degrees, it would rotate the wheel to 105 degrees and reverse its direction
         // It limits the rotational distance the wheel needs to cover
-        SwerveModuleState optimizedWheelState;
-        if (xbox.getAButton()) {
-            optimizedWheelState = wheelState;
-        }
-        else {
-            optimizedWheelState = SwerveModuleState.optimize(wheelState, getRotation());
-        }
+        SwerveModuleState optimizedWheelState = SwerveModuleState.optimize(wheelState, getRotation());
         // This sets the setpoint of the PID loop to the angle determined above
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
-
+        
         angleMotor.set( // Sets the output of the rotation motor
           MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
             swervePID.calculate(getRotation().getDegrees()), -1, 1)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
