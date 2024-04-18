@@ -90,12 +90,15 @@ public class SwerveWheel extends SubsystemBase {
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
 
         angleMotor.set(ControlMode.PercentOutput, // Sets the output of the rotation motor
-            MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
-                swervePID.calculate(getRotation().getDegrees()), -1, 1)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
+            MathUtil.applyDeadband(MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
+                swervePID.calculate(getRotation().getDegrees()), -1, 1), Constants.deadband)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
 
-        driveMotor.set( // This sets the speed of the wheel to the speed assigned by the optimized SwerveModuleState
+        driveMotor.set(
+          MathUtil.applyDeadband( // This sets the speed of the wheel to the speed assigned by the optimized SwerveModuleState
           optimizedWheelState.speedMetersPerSecond
             * // and multiplies it by a global maxSpeed multiplier
-          Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed); 
+          Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed,
+          Constants.deadband)
+        ); 
   }
 }

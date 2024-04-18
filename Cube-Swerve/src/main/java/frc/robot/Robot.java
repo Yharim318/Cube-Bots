@@ -11,9 +11,8 @@ import frc.robot.Subsystems.Swerve;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  Swerve swerve = new Swerve();
   private RobotContainer m_robotContainer;
-
+  public Swerve swerve = new Swerve();
   
   @Override
   public void robotInit() {
@@ -22,8 +21,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
-    
   }
 
   @Override
