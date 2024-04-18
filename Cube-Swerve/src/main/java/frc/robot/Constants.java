@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
@@ -20,9 +21,9 @@ public class Constants {
             public final static int LeftAngle = 3;
 
             public final static int RightCancoder = 23;
-            public static final double RightCancoderOffset = -120;
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(-85+25);
             public final static int LeftCancoder = 22;
-            public static final double LeftCancoderOffset = 40;
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(130+12);
         }
         public class BackWheels{
             public final static int RightDrive = 8;
@@ -31,13 +32,13 @@ public class Constants {
             public final static int LeftAngle = 1;
 
             public final static int RightCancoder = 24;
-            public static final double RightCancoderOffset = 245;
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(85+20);
             public final static int LeftCancoder = 21;
-            public static final double LeftCancoderOffset = 137;
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(227);
         }
         public class PIDConstants{
-            public final static double kP = 50; // Proportion
-            public final static double kI = 0; // Integral
+            public final static double kP = 0.01; // Proportion
+            public final static double kI = 0.00; // Integral
             public final static double kD = 0.00; // Derivative
         }
         public class ChassisConstants{

@@ -7,6 +7,7 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -31,40 +32,45 @@ public class SwerveWheel extends SubsystemBase {
       Constants.SwerveWheelConstants.PIDConstants.kI,
       Constants.SwerveWheelConstants.PIDConstants.kD
       );
+      
 
     switch (module){
       case FL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftDrive);
         angleMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.LeftCancoder);
-        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset;
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
         break;
       case FR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightDrive);
         angleMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.RightCancoder);
-        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset;
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
         break;
       case BL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftDrive);
         angleMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.LeftCancoder);
-        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.LeftCancoderOffset;
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
+        driveMotor.setInverted(true);
         break;
       case BR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightDrive);
         angleMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.RightCancoder);
-        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.RightCancoderOffset;
+        config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
+        driveMotor.setInverted(true);
         break;
     }
+    driveMotor.setNeutralMode(NeutralModeValue.Brake);
+    angleMotor.setNeutralMode(NeutralModeValue.Brake);
   }
   public Rotation2d getRotation() {
-        return Rotation2d.fromDegrees(encoder.getAbsolutePosition().getValue());
+        return Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().doubleValue());
   }
   public void setDriveSpeed(double speed) {
     driveMotor.set(speed);
@@ -88,15 +94,13 @@ public class SwerveWheel extends SubsystemBase {
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
 
         angleMotor.set( // Sets the output of the rotation motor
-            MathUtil.applyDeadband(MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
-                swervePID.calculate(getRotation().getDegrees()), -1, 1), Constants.deadband)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
+          MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
+            swervePID.calculate(getRotation().getDegrees()), -1, 1)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
 
-        driveMotor.set(
-          MathUtil.applyDeadband( // This sets the speed of the wheel to the speed assigned by the optimized SwerveModuleState
+        driveMotor.set( // This sets the speed of the wheel to the speed assigned by the optimized SwerveModuleState
           optimizedWheelState.speedMetersPerSecond
             * // and multiplies it by a global maxSpeed multiplier
-          Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed,
-          Constants.deadband)
+          Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed
         ); 
   }
 }

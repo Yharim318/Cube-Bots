@@ -7,6 +7,7 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -29,7 +30,7 @@ public class Swerve extends SubsystemBase {
 
   SwerveDriveKinematics swerveDrive = Constants.SwerveWheelConstants.ChassisConstants.swerveKinematics;
 
-  double limit = 1000.0;
+  double limit = 100.0;
   SlewRateLimiter xLimit = new SlewRateLimiter(limit);
   SlewRateLimiter yLimit = new SlewRateLimiter(limit);
 
@@ -52,19 +53,19 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     goalSpeed = ChassisSpeeds.fromFieldRelativeSpeeds( // This static method generates a new ChassisSpeeds object based on given velocities
-      yLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftY.value)), // Xbox controller
-      xLimit.calculate(XboxController.Axis.kLeftX.value), // Xbox controller
+      MathUtil.applyDeadband(yLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftY.value)), Constants.deadband), // Xbox controller
+      MathUtil.applyDeadband(xLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftX.value)), Constants.deadband), // Xbox controller // Xbox controller
       // While the input speeds are technically supposed to be m/s, it is easier to assume max joystick is 1 m/s
 
       // Because of the above assumption, the rotation joystick needs to be scaled to balance movement with rotation
       // For example, without the scalar, the robot would rotate at 1 rad/s at maximum rotate (and thus take the same amount of time to rotate once as to travel six meters)
       // The scalar exists to customize this to fit user need
-      driver.getRawAxis(XboxController.Axis.kRightX.value) * Constants.SwerveWheelConstants.ChassisConstants.maxRotationSpeed, // Xbox controller
+      MathUtil.applyDeadband(driver.getRawAxis(XboxController.Axis.kRightX.value) * 0.05, Constants.deadband/5), // Xbox controller
 
       // This is needed because of the field relative nature of this object; if a gyro is used, this should be the gyro
       // If used with a gyro, this allows for the joystick to operate the robot in the same directions regardless of robot orientation
       // i.e. Up on the left joystick always moves the robot away from the user regardless of its rotation
-      Rotation2d.fromDegrees(-gyro.getYaw().getValue())
+      Rotation2d.fromDegrees(gyro.getYaw().getValue())
     );
 
     if (driver.getXButton()) {
@@ -78,7 +79,8 @@ public class Swerve extends SubsystemBase {
   public void update(){
     wheelFL.updatePID(goalStates[0], driver);
     wheelFR.updatePID(goalStates[1], driver);
-    wheelBR.updatePID(goalStates[2], driver);
-    wheelBL.updatePID(goalStates[3], driver);
+    wheelBR.updatePID(goalStates[3], driver);
+    wheelBL.updatePID(goalStates[2], driver);
+    System.out.println();
   }
 }
