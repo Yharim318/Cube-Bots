@@ -70,8 +70,11 @@ public class SwerveWheel extends SubsystemBase {
     angleMotor.setNeutralMode(NeutralModeValue.Brake);
   }
   public Rotation2d getRotation() {
-        return Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().doubleValue());
+        return normalize(Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().doubleValue()));
   }
+  public Rotation2d normalize(Rotation2d angle) {
+    return angle.minus(Rotation2d.fromDegrees(0));
+}
   public void setDriveSpeed(double speed) {
     driveMotor.set(speed);
 }
