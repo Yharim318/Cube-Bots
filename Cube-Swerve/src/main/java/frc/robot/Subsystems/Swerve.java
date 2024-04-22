@@ -53,8 +53,8 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     goalSpeed = ChassisSpeeds.fromFieldRelativeSpeeds( // This static method generates a new ChassisSpeeds object based on given velocities
-      MathUtil.applyDeadband(yLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftY.value)), Constants.deadband), // Xbox controller
-      MathUtil.applyDeadband(xLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftX.value)), Constants.deadband), // Xbox controller // Xbox controller
+    MathUtil.applyDeadband(yLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftY.value)), Constants.deadband), // Xbox controller
+      MathUtil.applyDeadband(xLimit.calculate(driver.getRawAxis(XboxController.Axis.kLeftX.value)), Constants.deadband), // Xbox controller
       // While the input speeds are technically supposed to be m/s, it is easier to assume max joystick is 1 m/s
 
       // Because of the above assumption, the rotation joystick needs to be scaled to balance movement with rotation
