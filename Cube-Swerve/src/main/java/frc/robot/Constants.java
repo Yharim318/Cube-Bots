@@ -32,7 +32,7 @@ public class Constants {
             public final static int LeftAngle = 1;
 
             public final static int RightCancoder = 24;
-            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(85+20);
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(85+30);
             public final static int LeftCancoder = 21;
             public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(227);
         }

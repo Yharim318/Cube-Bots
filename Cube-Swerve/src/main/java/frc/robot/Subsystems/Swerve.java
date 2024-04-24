@@ -38,7 +38,7 @@ public class Swerve extends SubsystemBase {
   SwerveModuleState[] goalStates;
   Translation2d centerRotation = new Translation2d(0, 0);
 
-  XboxController driver = new XboxController(Constants.driver);
+  public XboxController driver = new XboxController(Constants.driver);
   public Swerve() {
     
     wheelFL = new SwerveWheel(kMotors.FL);

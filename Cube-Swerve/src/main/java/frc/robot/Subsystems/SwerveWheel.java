@@ -82,6 +82,17 @@ public class SwerveWheel extends SubsystemBase {
   public void setSwerveSpeed(double speed) {  
     angleMotor.set(speed);
 }
+  public SwerveModuleState optimizeBetter(
+      SwerveModuleState desiredState, Rotation2d currentAngle) {
+    var delta = desiredState.angle.minus(currentAngle);
+    if (Math.abs(delta.getDegrees()) > 90.0) {
+      return new SwerveModuleState(
+          -desiredState.speedMetersPerSecond,
+          desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0)));
+    } else {
+      return new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle);
+    }
+  }
   public void updatePID(SwerveModuleState wheelState, XboxController xbox) {
         // This takes the given SwerveModuleState and optimizes it
         // For example, if the wheel were facing at 90 degrees, and had to be moving forward at -75 degrees, it would rotate the wheel to 105 degrees and reverse its direction
@@ -91,7 +102,7 @@ public class SwerveWheel extends SubsystemBase {
             optimizedWheelState = wheelState;
         }
         else {
-            optimizedWheelState = SwerveModuleState.optimize(wheelState, getRotation());
+            optimizedWheelState = optimizeBetter(wheelState, getRotation());
         }
         // This sets the setpoint of the PID loop to the angle determined above
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
