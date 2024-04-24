@@ -8,7 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
+import frc.robot.SwerveConstants;
 import frc.robot.Subsystems.Tank;
 
 public class TeleopTank extends Command {
@@ -23,8 +23,8 @@ public class TeleopTank extends Command {
   }
   @Override
   public void execute() {
-    double leftAxis = MathUtil.applyDeadband(leftAxisSup.getAsDouble(), Constants.StickDeadband);
-    double rightAxis = MathUtil.applyDeadband(rightAxisSup.getAsDouble(), Constants.StickDeadband);
+    double leftAxis = MathUtil.applyDeadband(leftAxisSup.getAsDouble(), SwerveConstants.StickDeadband);
+    double rightAxis = MathUtil.applyDeadband(rightAxisSup.getAsDouble(), SwerveConstants.StickDeadband);
     tank.drive(leftAxis, rightAxis);
   }
 }

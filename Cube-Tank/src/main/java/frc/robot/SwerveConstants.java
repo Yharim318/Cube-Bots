@@ -1,7 +1,6 @@
 package frc.robot;
 
-public class Constants {
-    //TODO: Change everything for each Robot 
+public class SwerveConstants {
     public class Left{
         public static int Front = 1; 
         public static Boolean FrontReversed = true;
