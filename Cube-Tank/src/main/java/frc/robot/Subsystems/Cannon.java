@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,6 +18,8 @@ public class Cannon extends SubsystemBase {
   Relay compressor1 = new Relay(CannonConstants.compressor1);
   Relay compressor2 = new Relay(CannonConstants.compressor2);
   Relay gardenHose = new Relay(CannonConstants.gardenHose);
+
+  VictorSPX pivot = new VictorSPX(CannonConstants.pivot);
 
   public Cannon() {}
 
