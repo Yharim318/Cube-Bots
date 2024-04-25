@@ -4,14 +4,24 @@
 
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.CannonConstants;
 
 public class Cannon extends SubsystemBase {
   /** Creates a new Cannon. */
+  AnalogInput sensor = new AnalogInput(CannonConstants.sensor);
+
+  Relay compressor1 = new Relay(CannonConstants.compressor1);
+  Relay compressor2 = new Relay(CannonConstants.compressor2);
+  Relay gardenHose = new Relay(CannonConstants.gardenHose);
+
   public Cannon() {}
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 }
