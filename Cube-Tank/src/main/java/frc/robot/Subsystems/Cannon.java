@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CannonConstants;
 
@@ -26,6 +27,13 @@ public class Cannon extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    System.out.println(sensor.getValue());
+  }
+  public void compress(Value value){
+    compressor1.set(value);
+    compressor2.set(value);
+  }
+  public void hose(Value value){
+    gardenHose.set(value);
   }
 }

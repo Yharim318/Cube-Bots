@@ -6,7 +6,7 @@ package frc.robot;
 
 /** Add your docs here. */
 public class CannonConstants {
-    public static final int sensor = 0;
+    public static final int sensor = 1;
 
     public static final int compressor1 = 1;
     public static final int compressor2 = 2;

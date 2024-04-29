@@ -4,29 +4,49 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
+import frc.robot.Subsystems.Cannon;
 
 public class Shoot extends Command {
+  Cannon cannon;
+  double finalTime = 0.5;
+  double currentTime = 0;
   /** Creates a new Shoot. */
-  public Shoot() {
+  public Shoot(Cannon Cannon) {
     // Use addRequirements() here to declare subsystem dependencies.
+    cannon = Cannon;
+    addRequirements(cannon);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    cannon.hose(Value.kOn);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    currentTime += Robot.kDefaultPeriod;
+    System.out.println(currentTime);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    cannon.hose(Value.kOff);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (currentTime >= finalTime){
+      cannon.hose(Value.kOff);
+      return true;
+    }
+    else 
+      return false;
   }
 }
