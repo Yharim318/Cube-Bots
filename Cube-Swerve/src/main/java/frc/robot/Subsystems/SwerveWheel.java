@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -21,7 +24,7 @@ import frc.robot.Constants.SwerveWheelConstants.kMotors;
 public class SwerveWheel extends SubsystemBase {
   /** Creates a new SwerveWheel. */
   public TalonFX driveMotor; // Motor controller object for the drive motor
-  public TalonFX angleMotor; // Motor controller object fo the turning motor
+  public VictorSPX angleMotor; // Motor controller object fo the turning motor
   public CANcoder encoder;
   public PIDController swervePID; // PID controller object for error correction
   public CANcoderConfiguration config = new CANcoderConfiguration();
@@ -37,21 +40,21 @@ public class SwerveWheel extends SubsystemBase {
     switch (module){
       case FL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftDrive);
-        angleMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.LeftAngle);
+        angleMotor = new VictorSPX(Constants.SwerveWheelConstants.FrontWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
         break;
       case FR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightDrive);
-        angleMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightAngle);
+        angleMotor = new VictorSPX(Constants.SwerveWheelConstants.FrontWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
         break;
       case BL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftDrive);
-        angleMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftAngle);
+        angleMotor = new VictorSPX(Constants.SwerveWheelConstants.BackWheels.LeftAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
@@ -59,7 +62,7 @@ public class SwerveWheel extends SubsystemBase {
         break;
       case BR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightDrive);
-        angleMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.RightAngle);
+        angleMotor = new VictorSPX(Constants.SwerveWheelConstants.BackWheels.RightAngle);
         encoder = new CANcoder(Constants.SwerveWheelConstants.BackWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.BackWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
@@ -67,7 +70,7 @@ public class SwerveWheel extends SubsystemBase {
         break;
     }
     driveMotor.setNeutralMode(NeutralModeValue.Brake);
-    angleMotor.setNeutralMode(NeutralModeValue.Brake);
+    angleMotor.setNeutralMode(NeutralMode.Brake);
   }
   public Rotation2d getRotation() {
         return normalize(Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().doubleValue()));
@@ -80,7 +83,7 @@ public class SwerveWheel extends SubsystemBase {
 }
 
   public void setSwerveSpeed(double speed) {  
-    angleMotor.set(speed);
+    angleMotor.set(VictorSPXControlMode.PercentOutput, speed);
 }
   public SwerveModuleState optimizeBetter(
       SwerveModuleState desiredState, Rotation2d currentAngle) {
@@ -107,7 +110,7 @@ public class SwerveWheel extends SubsystemBase {
         // This sets the setpoint of the PID loop to the angle determined above
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
 
-        angleMotor.set( // Sets the output of the rotation motor
+        setSwerveSpeed( // Sets the output of the rotation motor
           MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
             swervePID.calculate(getRotation().getDegrees()), -1, 1)); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
 
