@@ -38,9 +38,10 @@ public class Swerve extends SubsystemBase {
   SwerveModuleState[] goalStates;
   Translation2d centerRotation = new Translation2d(0, 0);
 
-  public XboxController driver = new XboxController(Constants.driver);
-  public Swerve() {
-    
+  public XboxController driver;
+  public Swerve(XboxController driver) {
+    this.driver = driver;
+
     wheelFL = new SwerveWheel(kMotors.FL);
     wheelFR = new SwerveWheel(kMotors.FR);
     wheelBR = new SwerveWheel(kMotors.BR);
@@ -76,11 +77,14 @@ public class Swerve extends SubsystemBase {
 
     SwerveDriveKinematics.desaturateWheelSpeeds(goalStates, 1);
   }
-  public void update(){
-    wheelFL.updatePID(goalStates[0], driver);
-    wheelFR.updatePID(goalStates[1], driver);
-    wheelBR.updatePID(goalStates[3], driver);
-    wheelBL.updatePID(goalStates[2], driver);
+  public SwerveModuleState[] GetGoalStates(){
+    return goalStates;
+  }
+  public void update(SwerveModuleState[] swerveModuleStates){
+    wheelFL.updatePID(swerveModuleStates[0], driver);
+    wheelFR.updatePID(swerveModuleStates[1], driver);
+    wheelBR.updatePID(swerveModuleStates[3], driver);
+    wheelBL.updatePID(swerveModuleStates[2], driver);
     System.out.println();
   }
 }

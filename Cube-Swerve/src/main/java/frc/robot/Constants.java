@@ -11,7 +11,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 /** Add your docs here. */
 public class Constants {
     public static final int gyro = 40;
-    public static final int driver = 0;
     public static final double deadband = 0.05;
     public class SwerveWheelConstants{
         public class FrontWheels{
