@@ -18,6 +18,7 @@ public class RobotContainer {
 
   XboxController driver = new XboxController(0);
   JoystickButton xButton = new JoystickButton(driver, XboxController.Button.kX.value);
+  JoystickButton gyroButton= new JoystickButton(driver, XboxController.Button.kY.value);
 
   public Swerve swerve = new Swerve(driver);
   public RobotContainer() {
@@ -34,6 +35,7 @@ public class RobotContainer {
       }
       )
     ));
+    gyroButton.onTrue(new InstantCommand(() -> swerve.resetGyro()));
   }
 
   public Command getAutonomousCommand() {

@@ -69,16 +69,15 @@ public class Swerve extends SubsystemBase {
       Rotation2d.fromDegrees(gyro.getYaw().getValue())
     );
 
-    if (driver.getXButton()) {
-      gyro.reset();
-    }
-
     goalStates = swerveDrive.toSwerveModuleStates(goalSpeed, centerRotation);
 
     SwerveDriveKinematics.desaturateWheelSpeeds(goalStates, 1);
   }
   public SwerveModuleState[] GetGoalStates(){
     return goalStates;
+  }
+  public void resetGyro(){
+    gyro.reset();
   }
 
   public void update(SwerveModuleState[] swerveModuleStates){
