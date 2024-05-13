@@ -20,5 +20,4 @@ public class TeleopSwerve extends Command {
   public void execute() {
     swerve.update(swerve.GetGoalStates());
   }
-
 }
