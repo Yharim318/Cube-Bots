@@ -41,8 +41,8 @@ public class Constants {
             public final static double kD = 0.00; // Derivative
         }
         public class ChassisConstants{
-            public static double length = 28;
-            public static double width = 30;
+            public static double length = 16;
+            public static double width = 16;
 
             public static double maxDriveSpeed = 1;
             public static double maxRotationSpeed = Math.PI;

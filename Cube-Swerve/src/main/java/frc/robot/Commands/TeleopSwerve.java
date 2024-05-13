@@ -18,6 +18,6 @@ public class TeleopSwerve extends Command {
 
   @Override
   public void execute() {
-    swerve.update(swerve.GetGoalStates());
+    swerve.update();
   }
 }
