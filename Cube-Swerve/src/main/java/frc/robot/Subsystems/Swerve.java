@@ -85,13 +85,12 @@ public class Swerve extends SubsystemBase {
     wheelFR.updatePID(swerveModuleStates[1], driver);
     wheelBR.updatePID(swerveModuleStates[3], driver);
     wheelBL.updatePID(swerveModuleStates[2], driver);
-    System.out.println();
   }
   public void update(){
     wheelFL.updatePID(goalStates[0], driver);
     wheelFR.updatePID(goalStates[1], driver);
     wheelBR.updatePID(goalStates[3], driver);
     wheelBL.updatePID(goalStates[2], driver);
-    System.out.println();
+    System.out.println(wheelBR.encoder.getAbsolutePosition());
   }
 }

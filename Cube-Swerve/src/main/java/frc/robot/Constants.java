@@ -10,30 +10,30 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 
 /** Add your docs here. */
 public class Constants {
-    public static final int gyro = 40;
+    public static final int gyro = 31;
     public static final double deadband = 0.05;
     public class SwerveWheelConstants{
         public class FrontWheels{
-            public final static int RightDrive = 6;
-            public final static int LeftDrive = 4;
-            public final static int RightAngle = 5;
-            public final static int LeftAngle = 3;
+            public final static int RightDrive = 3;
+            public final static int LeftDrive = 2;
+            public final static int RightAngle = 13;
+            public final static int LeftAngle = 12;
 
             public final static int RightCancoder = 23;
-            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(-85+25);
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(0);
             public final static int LeftCancoder = 22;
-            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(130+12);
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(0);
         }
         public class BackWheels{
-            public final static int RightDrive = 8;
-            public final static int LeftDrive = 2;
-            public final static int RightAngle = 7;
-            public final static int LeftAngle = 1;
+            public final static int RightDrive = 4;
+            public final static int LeftDrive = 1;
+            public final static int RightAngle = 14;
+            public final static int LeftAngle = 11;
 
             public final static int RightCancoder = 24;
-            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(85+30);
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(0);
             public final static int LeftCancoder = 21;
-            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(227);
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(0);
         }
         public class PIDConstants{
             public final static double kP = 0.01; // Proportion

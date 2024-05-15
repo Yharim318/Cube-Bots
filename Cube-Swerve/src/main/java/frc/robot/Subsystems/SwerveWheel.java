@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.MathUtil;
@@ -30,6 +31,7 @@ public class SwerveWheel extends SubsystemBase {
   public CANcoderConfiguration config = new CANcoderConfiguration();
   
   public SwerveWheel(kMotors module) {
+    config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
     swervePID = new PIDController(
       Constants.SwerveWheelConstants.PIDConstants.kP,
       Constants.SwerveWheelConstants.PIDConstants.kI,
@@ -73,7 +75,7 @@ public class SwerveWheel extends SubsystemBase {
     angleMotor.setNeutralMode(NeutralMode.Brake);
   }
   public Rotation2d getRotation() {
-        return normalize(Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue().doubleValue()));
+    return normalize(Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue()));
   }
   public Rotation2d normalize(Rotation2d angle) {
     return angle.minus(Rotation2d.fromDegrees(0));
@@ -105,7 +107,7 @@ public class SwerveWheel extends SubsystemBase {
             optimizedWheelState = wheelState;
         }
         else {
-            optimizedWheelState = optimizeBetter(wheelState, getRotation());
+            optimizedWheelState = SwerveModuleState.optimize(wheelState, getRotation());
         }
         // This sets the setpoint of the PID loop to the angle determined above
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
