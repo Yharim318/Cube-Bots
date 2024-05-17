@@ -20,9 +20,9 @@ public class Constants {
             public final static int LeftAngle = 12;
 
             public final static int RightCancoder = 23;
-            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(0);
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(47);
             public final static int LeftCancoder = 22;
-            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(0);
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(47);
         }
         public class BackWheels{
             public final static int RightDrive = 4;
@@ -31,9 +31,9 @@ public class Constants {
             public final static int LeftAngle = 11;
 
             public final static int RightCancoder = 24;
-            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(0);
+            public static final Rotation2d RightCancoderOffset = Rotation2d.fromDegrees(-20+90+180);
             public final static int LeftCancoder = 21;
-            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(0);
+            public static final Rotation2d LeftCancoderOffset = Rotation2d.fromDegrees(-70);
         }
         public class PIDConstants{
             public final static double kP = 0.01; // Proportion
@@ -45,7 +45,7 @@ public class Constants {
             public static double width = 16;
 
             public static double maxDriveSpeed = 1;
-            public static double maxRotationSpeed = Math.PI;
+            public static double maxRotationSpeed = -maxDriveSpeed / (Math.PI * 3);
 
             public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
             new Translation2d(length / 2.0, width / 2.0),

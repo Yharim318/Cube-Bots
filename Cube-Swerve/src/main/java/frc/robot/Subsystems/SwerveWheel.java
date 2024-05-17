@@ -46,6 +46,7 @@ public class SwerveWheel extends SubsystemBase {
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.LeftCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.LeftCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
+        driveMotor.setInverted(true);
         break;
       case FR:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.FrontWheels.RightDrive);
@@ -53,6 +54,7 @@ public class SwerveWheel extends SubsystemBase {
         encoder = new CANcoder(Constants.SwerveWheelConstants.FrontWheels.RightCancoder);
         config.MagnetSensor.MagnetOffset = Constants.SwerveWheelConstants.FrontWheels.RightCancoderOffset.getRotations();
         encoder.getConfigurator().apply(config);
+        driveMotor.setInverted(true);
         break;
       case BL:
         driveMotor = new TalonFX(Constants.SwerveWheelConstants.BackWheels.LeftDrive);

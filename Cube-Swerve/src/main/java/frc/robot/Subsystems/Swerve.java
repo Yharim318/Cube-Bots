@@ -30,7 +30,7 @@ public class Swerve extends SubsystemBase {
 
   SwerveDriveKinematics swerveDrive = Constants.SwerveWheelConstants.ChassisConstants.swerveKinematics;
 
-  double limit = 100.0;
+  double limit = 1.0;
   SlewRateLimiter xLimit = new SlewRateLimiter(limit);
   SlewRateLimiter yLimit = new SlewRateLimiter(limit);
 
@@ -61,7 +61,7 @@ public class Swerve extends SubsystemBase {
       // Because of the above assumption, the rotation joystick needs to be scaled to balance movement with rotation
       // For example, without the scalar, the robot would rotate at 1 rad/s at maximum rotate (and thus take the same amount of time to rotate once as to travel six meters)
       // The scalar exists to customize this to fit user need
-      MathUtil.applyDeadband(driver.getRawAxis(XboxController.Axis.kRightX.value) * 0.05, Constants.deadband/5), // Xbox controller
+      MathUtil.applyDeadband(driver.getRawAxis(XboxController.Axis.kRightX.value), Constants.deadband) * Constants.SwerveWheelConstants.ChassisConstants.maxRotationSpeed, // Xbox controller
 
       // This is needed because of the field relative nature of this object; if a gyro is used, this should be the gyro
       // If used with a gyro, this allows for the joystick to operate the robot in the same directions regardless of robot orientation
@@ -71,7 +71,7 @@ public class Swerve extends SubsystemBase {
 
     goalStates = swerveDrive.toSwerveModuleStates(goalSpeed, centerRotation);
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(goalStates, 1);
+    SwerveDriveKinematics.desaturateWheelSpeeds(goalStates, Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed);
   }
   public SwerveModuleState[] GetGoalStates(){
     return goalStates;
