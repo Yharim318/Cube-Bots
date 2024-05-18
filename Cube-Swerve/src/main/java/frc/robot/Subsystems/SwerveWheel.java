@@ -77,7 +77,7 @@ public class SwerveWheel extends SubsystemBase {
     angleMotor.setNeutralMode(NeutralMode.Brake);
   }
   public Rotation2d getRotation() {
-    return normalize(Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue()));
+    return normalize(Rotation2d.fromRotations(encoder.getPosition().getValue()));
   }
   public Rotation2d normalize(Rotation2d angle) {
     return angle.minus(Rotation2d.fromDegrees(0));
@@ -89,17 +89,23 @@ public class SwerveWheel extends SubsystemBase {
   public void setSwerveSpeed(double speed) {  
     angleMotor.set(VictorSPXControlMode.PercentOutput, speed);
 }
+  public static SwerveModuleState optimize(
+    SwerveModuleState desiredState, Rotation2d currentAngle) {
+      var delta = desiredState.angle.minus(currentAngle);
+      if (Math.abs(delta.getDegrees()) > 90.0) {
+        return new SwerveModuleState(
+            -desiredState.speedMetersPerSecond,
+            desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0)));
+      } else {
+        return new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle);
+      }
+  }
   public void updatePID(SwerveModuleState wheelState, XboxController xbox) {
         // This takes the given SwerveModuleState and optimizes it
         // For example, if the wheel were facing at 90 degrees, and had to be moving forward at -75 degrees, it would rotate the wheel to 105 degrees and reverse its direction
         // It limits the rotational distance the wheel needs to cover
         SwerveModuleState optimizedWheelState;
-        if (xbox.getAButton()) {
-            optimizedWheelState = wheelState;
-        }
-        else {
-            optimizedWheelState = SwerveModuleState.optimize(wheelState, getRotation());
-        }
+        optimizedWheelState = optimize(wheelState, getRotation());
         // This sets the setpoint of the PID loop to the angle determined above
         swervePID.setSetpoint(optimizedWheelState.angle.getDegrees());
 
@@ -111,6 +117,6 @@ public class SwerveWheel extends SubsystemBase {
           optimizedWheelState.speedMetersPerSecond
             * // and multiplies it by a global maxSpeed multiplier
           Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed
-        ); 
+          ); 
   }
 }
