@@ -26,14 +26,14 @@ public class RobotContainer {
     configureBindings();
   }
   private void configureBindings() {
-    xButton.whileTrue(new InstantCommand(() -> swerve.update(
+    xButton.whileTrue( swerve.run(() -> swerve.update(
       new SwerveModuleState[]{
         new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
         new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
         new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
         new SwerveModuleState(0, Rotation2d.fromDegrees(45))
       }
-      )
+    )
     ));
     gyroButton.onTrue(new InstantCommand(() -> swerve.resetGyro()));
   }
