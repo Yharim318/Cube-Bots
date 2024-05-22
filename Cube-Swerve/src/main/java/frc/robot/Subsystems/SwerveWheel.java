@@ -79,6 +79,7 @@ public class SwerveWheel extends SubsystemBase {
   public Rotation2d getRotation() {
     return normalize(Rotation2d.fromRotations(encoder.getAbsolutePosition().getValue()));
   }
+  
   public Rotation2d normalize(Rotation2d angle) {
     return angle.minus(Rotation2d.fromDegrees(0));
 }
@@ -91,6 +92,8 @@ public class SwerveWheel extends SubsystemBase {
 }
   public static SwerveModuleState optimize(
     SwerveModuleState desiredState, Rotation2d currentAngle) {
+      if (desiredState.angle.getDegrees() > 0)
+        desiredState.angle.rotateBy(Rotation2d.fromDegrees(360));
       var delta = desiredState.angle.minus(currentAngle);
       System.out.println("wanted: " + desiredState.angle.getDegrees());
       System.out.println("current: " + currentAngle.getDegrees());
