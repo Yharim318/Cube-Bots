@@ -92,7 +92,7 @@ public class SwerveWheel extends SubsystemBase {
 }
   public static SwerveModuleState optimize(
     SwerveModuleState desiredState, Rotation2d currentAngle) {
-      if (desiredState.angle.getDegrees() > 0)
+      if (desiredState.angle.getDegrees() < 0)
         desiredState.angle.rotateBy(Rotation2d.fromDegrees(360));
       var delta = desiredState.angle.minus(currentAngle);
       System.out.println("wanted: " + desiredState.angle.getDegrees());
@@ -116,9 +116,9 @@ public class SwerveWheel extends SubsystemBase {
 
         setSwerveSpeed( // Sets the output of the rotation motor
           MathUtil.clamp( // Clamps PID output to between -1 and 1 to keep it in bounds
-            swervePID.calculate(getRotation().getDegrees()), -1, 1) * 0.85); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
+            swervePID.calculate(getRotation().getDegrees()), -1, 1) * 0.5); // The calculate command calculates the next iteration of the PID loop given the current angle of the wheel
 
-        driveMotor.set( // This sets the speed of the wheel to the speed assigned by the optimized SwerveModuleState
+        setDriveSpeed( // This sets the speed of the wheel to the speed assigned by the optimized SwerveModuleState
           optimizedWheelState.speedMetersPerSecond
             * // and multiplies it by a global maxSpeed multiplier
           Constants.SwerveWheelConstants.ChassisConstants.maxDriveSpeed
