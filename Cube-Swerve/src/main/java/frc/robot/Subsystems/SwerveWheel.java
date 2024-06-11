@@ -100,7 +100,7 @@ public class SwerveWheel extends SubsystemBase {
       if (Math.abs(delta.getDegrees()) > 90.0) {
         return new SwerveModuleState(
             -desiredState.speedMetersPerSecond,
-            desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0)));
+            desiredState.angle.rotateBy(Rotation2d.fromDegrees(-180)));
       } else {
         return new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle);
       }
