@@ -75,7 +75,7 @@ public class SwerveWheel extends SubsystemBase {
         encoder.getConfigurator().apply(config);
         break;
     }
-    config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
+    config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
     encoder.getConfigurator().apply(config);
   }
   public Rotation2d getRotation() {
